@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
 
 //TODO: implement buttons
@@ -20,8 +21,9 @@ public class WebFragment extends Fragment {
 
     WebFragmentInterface wfInterfaceListener;
 
-    // Button forwardButton;
-    // Button backButton;
+    WebView webview;
+    Button forwardButton;
+    Button backButton;
 
     public WebFragment() {
         // Required empty public constructor
@@ -38,12 +40,33 @@ public class WebFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_web, container, false);
+
+        forwardButton = v.findViewById(R.id.for_b);
+        backButton = v.findViewById(R.id.back_b);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webview.canGoBack()) {
+                    webview.goBack();
+                }
+            }
+        });
+
+        forwardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webview.canGoForward()) {
+                    webview.goForward();
+                }
+            }
+        });
         return v;
     }
 
     /*called when a user wants to load a URL into the fragment's WebView*/
     public void loadSite(String userURL) {
-        WebView webview = getView().findViewById(R.id.fragment_webview);
+        webview = getView().findViewById(R.id.fragment_webview);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.setWebViewClient(new WebViewClient() {
             @Override
