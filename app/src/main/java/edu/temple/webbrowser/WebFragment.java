@@ -10,15 +10,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
-
-//TODO: implement buttons
-//TODO: save url
 public class WebFragment extends Fragment {
-
     private final String httpString = "https://";
 
     String newURL = httpString;
-
     WebFragmentInterface wfInterfaceListener;
 
     WebView webview;
@@ -35,6 +30,7 @@ public class WebFragment extends Fragment {
         wfInterfaceListener = (WebFragmentInterface) activity;
     }
 
+    /*inflate layout view and set listeners for forward/back buttons*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,7 +39,6 @@ public class WebFragment extends Fragment {
 
         forwardButton = v.findViewById(R.id.for_b);
         backButton = v.findViewById(R.id.back_b);
-
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +47,6 @@ public class WebFragment extends Fragment {
                 }
             }
         });
-
         forwardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

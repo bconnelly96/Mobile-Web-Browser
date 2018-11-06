@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements WebFragment.WebFragmentInterface {
-
     EditText urlInput;
     Button goButton;
 
@@ -55,17 +54,13 @@ public class MainActivity extends AppCompatActivity implements WebFragment.WebFr
 
             }
         });
-
-
-
-
-
-
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebFragment wf = (WebFragment) webAdapter.getItem(viewPager.getCurrentItem());
-                wf.loadSite(urlInput.getText().toString());
+                if (webAdapter.getCount() > 0) {
+                    WebFragment wf = (WebFragment) webAdapter.getItem(viewPager.getCurrentItem());
+                    wf.loadSite(urlInput.getText().toString());
+                }
             }
         });
     }
@@ -82,15 +77,21 @@ public class MainActivity extends AppCompatActivity implements WebFragment.WebFr
 
         if (id == R.id.action_add) {
             webAdapter.addWebFragment();
-            viewPager.setCurrentItem(viewPager.getCurrentItem());
-            webAdapter.getItem(viewPager.getCurrentItem());
+            if (webAdapter.getCount() > 0) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+            } else {
+                viewPager.setCurrentItem(viewPager.getCurrentItem());
+            }
         } else if (id == R.id.action_forward) {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-            webAdapter.getItem(viewPager.getCurrentItem());
+            if (webAdapter.getCount() > 0) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+            }
         } else if (id == R.id.action_backward) {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-            webAdapter.getItem(viewPager.getCurrentItem());
+            if (webAdapter.getCount() > 0) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            }
         }
+        webAdapter.getItem(viewPager.getCurrentItem());
         return super.onOptionsItemSelected(item);
     }
 
