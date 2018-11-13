@@ -1,5 +1,6 @@
 package edu.temple.webbrowser;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements WebFragment.WebFragmentInterface {
     EditText urlInput;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements WebFragment.WebFr
 
             }
         });
+
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +66,17 @@ public class MainActivity extends AppCompatActivity implements WebFragment.WebFr
                 }
             }
         });
+
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        if (Intent.ACTION_VIEW.equals(action)) {
+            String implicitURL = intent.getDataString();
+            webAdapter.addWebFragment();
+
+            viewPager.setCurrentItem(viewPager.getCurrentItem());
+            WebFragment wf = (WebFragment) webAdapter.getItem(viewPager.getCurrentItem());
+            wf.implicit(true, implicitURL);
+        }
     }
 
     @Override
